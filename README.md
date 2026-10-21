@@ -1,4 +1,4 @@
-# 🛒 OlistIQ — SQL Analytics Intelligence Platform
+# OlistIQ — SQL Analytics Intelligence Platform
 ### End-to-End Data Engineering & Business Intelligence on 100K Brazilian E-Commerce Orders
 
 [![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-madhav70.github.io-10b981?style=for-the-badge)](https://madhav70.github.io/olist-ecommerce-sql-analytics/)
@@ -14,11 +14,11 @@
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -30,15 +30,15 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ---
 
-**🌐 [View the Live Interactive Dashboard →](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [View the Live Interactive Dashboard →](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -52,11 +52,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -70,7 +70,7 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ## Table of Contents
 1. [Project Overview & Key Results](#project-overview--key-results)
-2. [🌐 Live Dashboard](#-live-dashboard)
+2. [ Live Dashboard](#-live-dashboard)
 3. [Repository Structure](#repository-structure)
 4. [Relational Schema & Architecture](#relational-schema--architecture)
 5. [Quickstart Guide](#quickstart-guide)
@@ -81,11 +81,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -102,11 +102,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 | Executive KPI | Value | Business Context |
 | :---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -118,11 +118,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 --- | :---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -134,11 +134,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 --- | :---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -162,11 +162,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -216,11 +216,11 @@ SQL Project/
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -253,11 +253,11 @@ For complete field descriptions and data types, refer to the [Data Dictionary](f
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -308,11 +308,11 @@ python scripts/run_query.py queries/04_product_category_performance.sql --csv ou
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -348,11 +348,11 @@ This project showcases real-world SQL engineering and analytics patterns:
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -401,11 +401,11 @@ An interactive, single-page analytics dashboard showcasing all project findings 
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
@@ -429,11 +429,11 @@ The database includes 5 pre-compiled views ready for BI dashboards (Power BI, Ta
 
 ---
 
-## 🌐 Live Dashboard
+##  Live Dashboard
 
 An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
 
-**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+** [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
 
 | Tab | Content |
 | :--- | :--- |
