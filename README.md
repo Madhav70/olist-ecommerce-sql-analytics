@@ -1,32 +1,154 @@
-# Brazilian E-Commerce (Olist) SQL Analytics & Data Engineering Project
+# 🛒 OlistIQ — SQL Analytics Intelligence Platform
+### End-to-End Data Engineering & Business Intelligence on 100K Brazilian E-Commerce Orders
 
-[![SQL](https://img.shields.io/badge/Language-SQL%20%7C%20ANSI%20%7C%20SQLite%20%7C%20Postgres-blue.svg)](https://sqlite.org)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://python.org)
-[![Database](https://img.shields.io/badge/Database-SQLite%20(Preloaded)-orange.svg)](file:///c:/Users/Admin/Downloads/SQL%20Project/olist_ecommerce.db)
-[![Dataset](https://img.shields.io/badge/Data-Olist%20E--Commerce-yellow.svg)](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-madhav70.github.io-10b981?style=for-the-badge)](https://madhav70.github.io/olist-ecommerce-sql-analytics/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-olist--ecommerce--sql--analytics-181717?style=for-the-badge&logo=github)](https://github.com/Madhav70/olist-ecommerce-sql-analytics)
 
-A comprehensive, production-grade SQL analytics project built on the **Brazilian E-Commerce Public Dataset by Olist** (~100,000 orders from 2016 to 2018).
+[![SQL](https://img.shields.io/badge/SQL-SQLite%20%7C%20PostgreSQL%20%7C%20ANSI-blue?logo=sqlite)](https://sqlite.org)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![ETL](https://img.shields.io/badge/Pipeline-ETL%20Automated-orange)](scripts/load_database.py)
+[![Dataset](https://img.shields.io/badge/Data-Olist%20E--Commerce%20(Kaggle)-yellow)](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This repository transforms raw CSV data into a fully normalized, indexed relational database schema, coupled with an automated Python ETL pipeline, modular SQL query scripts, analytical views, and an executive-level business intelligence report.
+> **A production-grade SQL data engineering and analytics project** transforming 9 raw CSV files (~100K orders, 2016–2018) into a fully normalized relational database, automated ETL pipeline, 8 analytical SQL queries, 5 reporting views, and an HR-ready interactive live dashboard — powered by pure SQL and Python.
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+---
+
+**🌐 [View the Live Interactive Dashboard →](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+---
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 
 ## Table of Contents
 1. [Project Overview & Key Results](#project-overview--key-results)
-2. [Repository Structure](#repository-structure)
-3. [Relational Schema & Architecture](#relational-schema--architecture)
-4. [Quickstart Guide](#quickstart-guide)
-5. [Advanced SQL Techniques Demonstrated](#advanced-sql-techniques-demonstrated)
-6. [SQL Query Portfolio & Findings](#sql-query-portfolio--findings)
-7. [Reporting Views](#reporting-views)
-8. [Documentation Links](#documentation-links)
+2. [🌐 Live Dashboard](#-live-dashboard)
+3. [Repository Structure](#repository-structure)
+4. [Relational Schema & Architecture](#relational-schema--architecture)
+5. [Quickstart Guide](#quickstart-guide)
+6. [Advanced SQL Techniques Demonstrated](#advanced-sql-techniques-demonstrated)
+7. [SQL Query Portfolio & Findings](#sql-query-portfolio--findings)
+8. [Reporting Views](#reporting-views)
+9. [Documentation Links](#documentation-links)
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 
 ## Project Overview & Key Results
 
 | Executive KPI | Value | Business Context |
-| :--- | :--- | :--- |
+| :---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+--- | :---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+--- | :---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+--- |
 | **Total Orders Analyzed** | **99,441** | 96,478 delivered, 625 canceled, 2,338 in-flight. |
 | **Gross Merchandise Value (GMV)** | **R$ 13,221,498.11** | Total delivered merchandise revenue. |
 | **Freight Revenue** | **R$ 2,198,275.64** | Freight represents 14.26% of platform gross spend. |
@@ -37,6 +159,22 @@ This repository transforms raw CSV data into a fully normalized, indexed relatio
 | **On-Time Delivery SLA Rate** | **91.89%** | Average delivery takes 12.6 days (11.2 days before target SLA). |
 | **Delivery Delay Penalty** | **4.29 -> 2.57 Stars** | Rating collapses when late; 1-star reviews surge from 6.6% to 46.2%. |
 | **Financing Dependency** | **78.34% GMV via Credit Card** | 7x-10x installment orders carry 3.5x higher ticket sizes. |
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 
@@ -78,6 +216,22 @@ SQL Project/
 
 ---
 
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+---
+
 ## Relational Schema & Architecture
 
 The database is normalized to Third Normal Form (3NF) to guarantee transactional integrity:
@@ -96,6 +250,22 @@ erDiagram
 ```
 
 For complete field descriptions and data types, refer to the [Data Dictionary](file:///c:/Users/Admin/Downloads/SQL%20Project/docs/data_dictionary.md) and [Schema Diagram](file:///c:/Users/Admin/Downloads/SQL%20Project/docs/schema_diagram.md).
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 
@@ -138,6 +308,22 @@ python scripts/run_query.py queries/04_product_category_performance.sql --csv ou
 
 ---
 
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+---
+
 ## Advanced SQL Techniques Demonstrated
 
 This project showcases real-world SQL engineering and analytics patterns:
@@ -159,6 +345,22 @@ This project showcases real-world SQL engineering and analytics patterns:
    - Pivoting and metric calculations using `CASE WHEN ... THEN ... ELSE 0 END` within `SUM()` and `COUNT()`.
 6. **Query Optimization & Indexing**:
    - Strategic composite and single-column indexes on high-cardinality keys, foreign keys, and date timestamps.
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 
@@ -199,6 +401,22 @@ This project showcases real-world SQL engineering and analytics patterns:
 
 ---
 
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
+
+---
+
 ## Reporting Views
 
 The database includes 5 pre-compiled views ready for BI dashboards (Power BI, Tableau, Metabase) or direct SQL queries:
@@ -208,6 +426,22 @@ The database includes 5 pre-compiled views ready for BI dashboards (Power BI, Ta
 3. `vw_product_category_summary`: Category-level aggregation of orders, units, GMV, freight, ASP, and customer rating.
 4. `vw_seller_scorecard`: Merchant-level sales volume, revenue, average delivery duration, late delivery rate, and average review score.
 5. `vw_zip_code_geolocation`: Spatial lookup computing centroid coordinates `(AVG(lat), AVG(lng))` per postal code prefix.
+
+---
+
+## 🌐 Live Dashboard
+
+An interactive, single-page analytics dashboard showcasing all project findings — designed for recruiters and hiring managers who want to explore the data without running any code.
+
+**👉 [https://madhav70.github.io/olist-ecommerce-sql-analytics/](https://madhav70.github.io/olist-ecommerce-sql-analytics/)**
+
+| Tab | Content |
+| :--- | :--- |
+| **Executive Overview** | Platform KPIs, GMV trend chart, Black Friday spike, day-of-week patterns |
+| **Customer Intelligence** | RFM segmentation donut chart, repeat purchase rate, repurchase timing |
+| **Logistics & Delivery SLA** | On-time vs delayed impact on ratings, state-by-state late rates |
+| **Product & Category Analytics** | Top category revenue, freight friction table, cross-selling basket pairs |
+| **Payment Analytics** | Payment method mix, installment ticket elasticity |
 
 ---
 

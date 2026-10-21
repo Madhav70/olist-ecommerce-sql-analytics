@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OlistIQ SQL Analytics | Olist E-Commerce Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1e293b; }
+    ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 3px; }
+
+    /* Glass card */
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+    }
+    .glass-card-sm {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+    }
+
+    /* Sticky nav */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(16,185,129,0.15);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #3b82f6 60%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-emerald {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Animated pulse badge */
+    .pulse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #10b981;
+      animation: fadeSlideIn 0.8s ease;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: pulse-glow 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); transform: scale(1); }
+      50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); transform: scale(1.15); }
+    }
+
+    /* Live stat pill */
+    .live-stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.1));
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #a7f3d0;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.1); }
+      50% { box-shadow: 0 0 20px 2px rgba(16,185,129,0.15); }
+    }
+
+    /* Hero metric card glow */
+    .metric-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 16px 16px 0 0;
+    }
+    .metric-card.emerald::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .metric-card.blue::before   { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .metric-card.teal::before   { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+    .metric-card.amber::before  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .metric-card.rose::before   { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+    .metric-card.violet::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+    /* Tab system */
+    .tab-btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.05); }
+    .tab-btn.active {
+      background: rgba(16,185,129,0.15);
+      border-color: rgba(16,185,129,0.35);
+      color: #10b981;
+    }
+    .tab-content { display: none; animation: fadeIn 0.35s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateX(-15px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Left-border callout */
+    .callout-box {
+      border-left: 3px solid #10b981;
+      background: rgba(16,185,129,0.07);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+    }
+    .callout-box.amber {
+      border-left-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+    }
+    .callout-box.blue {
+      border-left-color: #3b82f6;
+      background: rgba(59,130,246,0.07);
+    }
+    .callout-box.rose {
+      border-left-color: #f43f5e;
+      background: rgba(244,63,94,0.07);
+    }
+    .callout-box.violet {
+      border-left-color: #8b5cf6;
+      background: rgba(139,92,246,0.07);
+    }
+
+    /* SQL badge pills */
+    .sql-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #6ee7b7;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .sql-badge:hover {
+      background: rgba(16,185,129,0.2);
+      border-color: rgba(16,185,129,0.4);
+      color: #a7f3d0;
+      transform: translateY(-1px);
+    }
+
+    /* Tables */
+    .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .data-table th {
+      padding: 10px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #64748b;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+    }
+    .data-table td {
+      padding: 11px 14px;
+      font-size: 0.82rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #cbd5e1;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover { background: rgba(255,255,255,0.025); }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* State bar row */
+    .state-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .state-label { width: 32px; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .state-bar-wrap { flex: 1; }
+    .state-pct { width: 52px; text-align: right; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+
+    /* Segment dot */
+    .seg-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    /* KPI big number */
+    .kpi-number {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    /* Big comparison */
+    .big-compare-card {
+      background: rgba(30,41,59,0.5);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* Glow icons */
+    .icon-glow-emerald { filter: drop-shadow(0 0 8px rgba(16,185,129,0.5)); }
+    .icon-glow-blue    { filter: drop-shadow(0 0 8px rgba(59,130,246,0.5)); }
+    .icon-glow-amber   { filter: drop-shadow(0 0 8px rgba(245,158,11,0.5)); }
+    .icon-glow-rose    { filter: drop-shadow(0 0 8px rgba(244,63,94,0.5)); }
+
+    /* Chart canvas wrapper */
+    .chart-wrap { position: relative; }
+
+    /* Responsive overrides */
+    @media (max-width: 768px) {
+      .kpi-number { font-size: 1.7rem; }
+      .tab-btn { padding: 8px 12px; font-size: 0.75rem; }
+    }
+
+    /* Recommendation card */
+    .rec-card {
+      background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.08));
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    /* Version badge */
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    /* Horizontal rule */
+    .hr-glow {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent);
+      margin: 32px 0;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(15,23,42,0.97);
+      border-top: 1px solid rgba(16,185,129,0.12);
+    }
+
+    /* Transition for tabs scroll */
+    .tabs-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px;
+      scrollbar-width: none;
+    }
+    .tabs-scroll::-webkit-scrollbar { display: none; }
+
+    /* Ripple effect for metric cards */
+    .metric-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    /* Tooltip custom */
+    .tooltip-custom {
+      position: relative;
+      cursor: help;
+    }
+    .tooltip-custom::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      border: 1px solid rgba(255,255,255,0.08);
+      z-index: 50;
+    }
+    .tooltip-custom:hover::after { opacity: 1; }
+
+    /* Number counter animation */
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .count-anim { animation: countUp 0.6s ease forwards; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  STICKY NAVIGATION                                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<header class="sticky-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+    <div class="flex items-center justify-between gap-4">
+      <!-- Brand -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg,#10b981,#059669);">
+          <i class="fa-solid fa-database text-white text-sm"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-white text-base leading-none tracking-tight">OlistIQ</span>
+            <span class="text-emerald-400 font-semibold text-sm leading-none">SQL Analytics</span>
+            <span class="version-badge"><i class="fa-solid fa-circle-check text-xs"></i> v1.0 Live</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5 hidden sm:block">Olist Brazilian E-Commerce · 99,441 Orders Analyzed</div>
+        </div>
+      </div>
+
+      <!-- Live Pill (desktop) -->
+      <div class="live-stat-pill hidden md:flex">
+        <span class="pulse-dot"></span>
+        <span>Orders Analyzed: <strong>99,441</strong></span>
+        <span class="text-slate-400">|</span>
+        <span>Platform GMV: <strong>R$ 13.2M</strong></span>
+      </div>
+
+      <!-- Links -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <a href="https://github.com/Madhav70/olist-ecommerce-sql-analytics" target="_blank"
+           class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition-all"
+           style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08);">
+          <i class="fa-brands fa-github"></i>
+          <span class="hidden sm:inline">GitHub</span>
+        </a>
+        <a href="https://madhav70.github.io/olist-ecommerce-sql-analytics/" target="_blank"
+           class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-all"
+           style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25);">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span class="hidden sm:inline">Live</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  HERO SECTION                                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-4">
+  <div class="text-center mb-8">
+    <div class="flex justify-center mb-4">
+      <div class="live-stat-pill md:hidden">
+        <span class="pulse-dot"></span>
+        <span>Orders: <strong>99,441</strong> | GMV: <strong>R$ 13.2M</strong></span>
+      </div>
+    </div>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-3">
+      <span class="gradient-text">OlistIQ</span>
+      <span class="text-white"> SQL Analytics</span>
+    </h1>
+    <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+      Advanced SQL-powered analytics on the Olist Brazilian E-Commerce dataset — 
+      <strong class="text-slate-300">99,441 orders</strong> across 
+      <strong class="text-slate-300">2016–2018</strong>, powered by 
+      <strong class="text-emerald-400">SQLite + 50+ analytical queries</strong>.
+    </p>
+    <div class="flex items-center justify-center gap-3 mt-5 flex-wrap">
+      <span class="pulse-badge"><span class="pulse-dot"></span> Live Dashboard</span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#60a5fa;">
+        <i class="fa-solid fa-layer-group"></i> 9 Normalized Tables
+      </span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:#fbbf24;">
+        <i class="fa-solid fa-star"></i> 4.09 Avg Rating
+      </span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);color:#a78bfa;">
+        <i class="fa-brands fa-kaggle"></i> Kaggle Dataset
+      </span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="glass-card p-2 mb-6" style="border-radius:14px;">
+    <div class="tabs-scroll" id="tabNav">
+      <button class="tab-btn active" onclick="switchTab('overview', this)">
+        <i class="fa-solid fa-chart-line mr-1.5"></i>Executive Overview
+      </button>
+      <button class="tab-btn" onclick="switchTab('customer', this)">
+        <i class="fa-solid fa-users mr-1.5"></i>Customer Intelligence
+      </button>
+      <button class="tab-btn" onclick="switchTab('logistics', this)">
+        <i class="fa-solid fa-truck mr-1.5"></i>Logistics & SLA
+      </button>
+      <button class="tab-btn" onclick="switchTab('product', this)">
+        <i class="fa-solid fa-box-open mr-1.5"></i>Product & Category
+      </button>
+      <button class="tab-btn" onclick="switchTab('payment', this)">
+        <i class="fa-solid fa-credit-card mr-1.5"></i>Payment Analytics
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TAB 1 — EXECUTIVE OVERVIEW                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-content active max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+
+  <!-- Hero KPI Cards -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- GMV -->
+    <div class="glass-card metric-card emerald p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div class="metric-icon-wrap" style="background:rgba(16,185,129,0.15);">
+          <i class="fa-solid fa-brazilian-real-sign text-emerald-400" style="font-size:1.1rem;"></i>
+        </div>
+        <span class="text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">GMV</span>
+      </div>
+      <div class="kpi-number gradient-text-emerald count-anim">R$ 13.22M</div>
+      <div class="text-xs text-slate-400 mt-2">Gross Merchandise Value</div>
+      <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up mr-1"></i>+52% Black Friday spike</div>
+    </div>
+    <!-- Orders -->
+    <div class="glass-card metric-card blue p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div class="metric-icon-wrap" style="background:rgba(59,130,246,0.15);">
+          <i class="fa-solid fa-cart-shopping text-blue-400" style="font-size:1.1rem;"></i>
+        </div>
+        <span class="text-xs font-semibold text-blue-400 bg-blue-400/10 px-2 py-1 rounded-full">Orders</span>
+      </div>
+      <div class="kpi-number count-anim" style="color:#60a5fa;">99,441</div>
+      <div class="text-xs text-slate-400 mt-2">Total Orders Placed</div>
+      <div class="text-xs text-blue-400 mt-1"><i class="fa-solid fa-calendar-days mr-1"></i>2016 – 2018</div>
+    </div>
+    <!-- Fulfillment -->
+    <div class="glass-card metric-card teal p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div class="metric-icon-wrap" style="background:rgba(20,184,166,0.15);">
+          <i class="fa-solid fa-circle-check text-teal-400" style="font-size:1.1rem;"></i>
+        </div>
+        <span class="text-xs font-semibold text-teal-400 bg-teal-400/10 px-2 py-1 rounded-full">SLA</span>
+      </div>
+      <div class="kpi-number count-anim" style="color:#2dd4bf;">97.02%</div>
+      <div class="text-xs text-slate-400 mt-2">Fulfillment Rate</div>
+      <div class="text-xs text-teal-400 mt-1"><i class="fa-solid fa-box mr-1"></i>96,478 delivered</div>
+    </div>
+    <!-- Review Score -->
+    <div class="glass-card metric-card amber p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div class="metric-icon-wrap" style="background:rgba(245,158,11,0.15);">
+          <i class="fa-solid fa-star text-amber-400" style="font-size:1.1rem;"></i>
+        </div>
+        <span class="text-xs font-semibold text-amber-400 bg-amber-400/10 px-2 py-1 rounded-full">Rating</span>
+      </div>
+      <div class="kpi-number count-anim" style="color:#fbbf24;">4.09 <span style="font-size:1.1rem;">★</span></div>
+      <div class="text-xs text-slate-400 mt-2">Platform Review Score</div>
+      <div class="text-xs text-amber-400 mt-1"><i class="fa-solid fa-users mr-1"></i>96,096 unique customers</div>
+    </div>
+  </div>
+
+  <!-- Dataset Callout -->
+  <div class="callout-box mb-6">
+    <div class="flex items-start gap-3">
+      <i class="fa-solid fa-circle-info text-emerald-400 mt-0.5 flex-shrink-0"></i>
+      <div>
+        <div class="font-semibold text-white text-sm mb-1">About the Olist Dataset</div>
+        <div class="text-slate-400 text-sm leading-relaxed">
+          The <strong class="text-slate-300">Olist Brazilian E-Commerce</strong> dataset from Kaggle contains 
+          <strong class="text-emerald-400">100,000+ real orders</strong> placed across Brazil between 2016–2018. 
+          The schema consists of <strong class="text-slate-300">9 normalized relational tables</strong> including 
+          orders, order items, customers, sellers, products, payments, reviews, geolocation, and categories — 
+          making it ideal for advanced SQL analytics covering supply chain, CRM, and business intelligence.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-6">
+    <!-- Monthly GMV -->
+    <div class="glass-card p-5 xl:col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <div class="font-bold text-white text-sm">Monthly GMV Trend</div>
+          <div class="text-xs text-slate-500 mt-0.5">Jan 2017 – Aug 2018 · Revenue in BRL</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-amber-400 bg-amber-400/10 px-2 py-1 rounded-full">
+            <i class="fa-solid fa-fire mr-1"></i>Black Friday Peak
+          </span>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="gmvChart"></canvas>
+      </div>
+    </div>
+    <!-- Day of Week -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">Orders by Day of Week</div>
+      <div class="text-xs text-slate-500 mb-4">Monday leads order volume</div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="dowChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats Row -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-blue-400">96,096</div>
+      <div class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i>Unique Customers</div>
+    </div>
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-emerald-400">3,095</div>
+      <div class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-store mr-1"></i>Active Sellers</div>
+    </div>
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-violet-400">32,951</div>
+      <div class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-tags mr-1"></i>Unique Products</div>
+    </div>
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-amber-400">14.26%</div>
+      <div class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-truck mr-1"></i>Freight % of Spend</div>
+    </div>
+  </div>
+
+  <!-- Secondary Metrics -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="glass-card-sm p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-money-bill text-emerald-400"></i>
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Revenue Breakdown</span>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span class="text-slate-400">GMV</span><span class="text-white font-semibold">R$ 13,221,498</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Freight Revenue</span><span class="text-white font-semibold">R$ 2,198,276</span></div>
+        <div class="flex justify-between border-t border-slate-700 pt-2"><span class="text-slate-300 font-semibold">Total Spend</span><span class="text-emerald-400 font-bold">R$ 15,419,774</span></div>
+      </div>
+    </div>
+    <div class="glass-card-sm p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-basket-shopping text-blue-400"></i>
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Order Metrics</span>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span class="text-slate-400">AOV</span><span class="text-white font-semibold">R$ 137.04</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Avg Basket Size</span><span class="text-white font-semibold">1.17 items</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Canceled Orders</span><span class="text-rose-400 font-semibold">625</span></div>
+      </div>
+    </div>
+    <div class="glass-card-sm p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-flag text-amber-400"></i>
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Order Status</span>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-slate-400">Delivered</span><span class="text-emerald-400 font-bold">96,478 (97.02%)</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:97%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-slate-400">Canceled</span><span class="text-rose-400 font-semibold">625 (0.63%)</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0.63%;background:#f43f5e;"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TAB 2 — CUSTOMER INTELLIGENCE                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="tab-customer" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+
+  <!-- KPI Row -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="glass-card metric-card blue p-5 text-center">
+      <div class="kpi-number" style="color:#60a5fa;">2,801</div>
+      <div class="text-xs text-slate-400 mt-2">Repeat Buyers</div>
+      <div class="text-xs text-blue-400 mt-1">3.00% of customers</div>
+    </div>
+    <div class="glass-card metric-card rose p-5 text-center">
+      <div class="kpi-number" style="color:#fb7185;">90,557</div>
+      <div class="text-xs text-slate-400 mt-2">One-Time Buyers</div>
+      <div class="text-xs text-rose-400 mt-1">97.00% of base</div>
+    </div>
+    <div class="glass-card metric-card emerald p-5 text-center">
+      <div class="kpi-number gradient-text-emerald">R$ 260</div>
+      <div class="text-xs text-slate-400 mt-2">Avg Spend — Repeat</div>
+      <div class="text-xs text-emerald-400 mt-1">1.88× more than singles</div>
+    </div>
+    <div class="glass-card metric-card amber p-5 text-center">
+      <div class="kpi-number" style="color:#fbbf24;">R$ 138</div>
+      <div class="text-xs text-slate-400 mt-2">Avg Spend — Single</div>
+      <div class="text-xs text-amber-400 mt-1">R$ 137.96 exact</div>
+    </div>
+  </div>
+
+  <!-- Retention Callout -->
+  <div class="callout-box amber mb-6">
+    <div class="flex items-start gap-3">
+      <i class="fa-solid fa-rotate text-amber-400 mt-0.5 flex-shrink-0 text-lg"></i>
+      <div>
+        <div class="font-bold text-white text-sm mb-1">Retention Insight: 3.00% Repeat Purchase Rate</div>
+        <div class="text-slate-400 text-sm">
+          Only <strong class="text-amber-300">2,801 customers</strong> (3.00%) made more than one purchase. 
+          However, repeat buyers spend <strong class="text-amber-300">1.88× more</strong> — 
+          R$ 260.05 vs R$ 137.96 — making CRM nurturing a high-ROI growth lever. 
+          The platform has significant headroom to grow repeat purchase rates via loyalty programs.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
+    <!-- RFM Doughnut -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">RFM Customer Segmentation</div>
+      <div class="text-xs text-slate-500 mb-4">8 segments by GMV contribution</div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="rfmChart"></canvas>
+      </div>
+    </div>
+    <!-- Segment Legend Table -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">Segment GMV Share</div>
+      <div class="space-y-3">
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#f43f5e;"></span>
+          <span class="text-sm text-slate-300 flex-1">Needs Attention</span>
+          <span class="text-xs text-slate-400 w-16 text-right">21,837</span>
+          <span class="text-xs font-bold text-rose-400 w-16 text-right">33.70%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#10b981;"></span>
+          <span class="text-sm text-slate-300 flex-1">High-Value New</span>
+          <span class="text-xs text-slate-400 w-16 text-right">14,484</span>
+          <span class="text-xs font-bold text-emerald-400 w-16 text-right">29.26%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#f59e0b;"></span>
+          <span class="text-sm text-slate-300 flex-1">High-Value Churned</span>
+          <span class="text-xs text-slate-400 w-16 text-right">6,840</span>
+          <span class="text-xs font-bold text-amber-400 w-16 text-right">14.28%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#64748b;"></span>
+          <span class="text-sm text-slate-300 flex-1">Hibernating/Lost</span>
+          <span class="text-xs text-slate-400 w-16 text-right">26,250</span>
+          <span class="text-xs font-bold text-slate-400 w-16 text-right">9.21%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#3b82f6;"></span>
+          <span class="text-sm text-slate-300 flex-1">Recent Promising</span>
+          <span class="text-xs text-slate-400 w-16 text-right">21,655</span>
+          <span class="text-xs font-bold text-blue-400 w-16 text-right">9.09%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#8b5cf6;"></span>
+          <span class="text-sm text-slate-300 flex-1">Champions VIP</span>
+          <span class="text-xs text-slate-400 w-16 text-right">933</span>
+          <span class="text-xs font-bold text-violet-400 w-16 text-right">2.31%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#14b8a6;"></span>
+          <span class="text-sm text-slate-300 flex-1">Loyal Customers</span>
+          <span class="text-xs text-slate-400 w-16 text-right">873</span>
+          <span class="text-xs font-bold text-teal-400 w-16 text-right">1.33%</span>
+        </div>
+        <div class="seg-row flex items-center gap-3">
+          <span class="seg-dot" style="background:#ec4899;"></span>
+          <span class="text-sm text-slate-300 flex-1">At Risk Former Loyal</span>
+          <span class="text-xs text-slate-400 w-16 text-right">486</span>
+          <span class="text-xs font-bold text-pink-400 w-16 text-right">0.81%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Repurchase Timing Table -->
+  <div class="glass-card p-5 mb-6">
+    <div class="font-bold text-white text-sm mb-4">
+      <i class="fa-solid fa-clock-rotate-left text-emerald-400 mr-2"></i>Repurchase Timing Analysis
+    </div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Timing Window</th>
+            <th>Customers</th>
+            <th>% of Repeaters</th>
+            <th>Avg Days to Repurchase</th>
+            <th>Opportunity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="font-semibold text-emerald-400">Within 1 Week</span></td>
+            <td>1,017</td>
+            <td><span class="text-emerald-400 font-bold">36.31%</span></td>
+            <td>0.6 days</td>
+            <td><span class="text-xs bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded-full">Flash re-targeting</span></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-blue-400">Within 1 Month</span></td>
+            <td>375</td>
+            <td><span class="text-blue-400 font-bold">13.39%</span></td>
+            <td>17.7 days</td>
+            <td><span class="text-xs bg-blue-400/10 text-blue-400 px-2 py-0.5 rounded-full">Email at day 14</span></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-teal-400">1–3 Months</span></td>
+            <td>488</td>
+            <td><span class="text-teal-400 font-bold">17.42%</span></td>
+            <td>56.6 days</td>
+            <td><span class="text-xs bg-teal-400/10 text-teal-400 px-2 py-0.5 rounded-full">Push at day 45</span></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-amber-400">3–6 Months</span></td>
+            <td>405</td>
+            <td><span class="text-amber-400 font-bold">14.46%</span></td>
+            <td>132.1 days</td>
+            <td><span class="text-xs bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-full">Win-back offer</span></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-rose-400">Over 6 Months</span></td>
+            <td>516</td>
+            <td><span class="text-rose-400 font-bold">18.42%</span></td>
+            <td>269.4 days</td>
+            <td><span class="text-xs bg-rose-400/10 text-rose-400 px-2 py-0.5 rounded-full">Heavy discount</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CRM Recommendation -->
+  <div class="rec-card">
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(16,185,129,0.2);">
+        <i class="fa-solid fa-lightbulb text-emerald-400"></i>
+      </div>
+      <div>
+        <div class="font-bold text-emerald-400 text-sm mb-1">Strategic Recommendation: CRM Post-Purchase Nurture</div>
+        <div class="text-slate-300 text-sm leading-relaxed">
+          Since <strong>36.31%</strong> of repeat buyers repurchase within 1 week, Olist should trigger a 
+          <strong class="text-emerald-300">Day-3 push notification</strong> post-delivery with a personalized 
+          cross-sell recommendation. For the 18.42% who take 6+ months, deploy a 
+          <strong class="text-emerald-300">targeted discount campaign at the 90-day mark</strong>. 
+          High-Value Churned (6,840 customers, 14.28% GMV) represent the single highest-impact reactivation target.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TAB 3 — LOGISTICS & DELIVERY SLA                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="tab-logistics" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+
+  <!-- Hero KPI Row -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="glass-card metric-card emerald p-5 text-center">
+      <div class="kpi-number gradient-text-emerald">91.89%</div>
+      <div class="text-xs text-slate-400 mt-2">On-Time SLA Rate</div>
+      <div class="text-xs text-emerald-400 mt-1">Orders delivered on schedule</div>
+    </div>
+    <div class="glass-card metric-card rose p-5 text-center">
+      <div class="kpi-number" style="color:#fb7185;">8.11%</div>
+      <div class="text-xs text-slate-400 mt-2">Late Delivery Rate</div>
+      <div class="text-xs text-rose-400 mt-1">~8,075 delayed orders</div>
+    </div>
+    <div class="glass-card metric-card blue p-5 text-center">
+      <div class="kpi-number" style="color:#60a5fa;">12.6</div>
+      <div class="text-xs text-slate-400 mt-2">Avg Delivery Days</div>
+      <div class="text-xs text-blue-400 mt-1">Dispatch 3.2d + Transit 9.3d</div>
+    </div>
+    <div class="glass-card metric-card teal p-5 text-center">
+      <div class="kpi-number" style="color:#2dd4bf;">11.2</div>
+      <div class="text-xs text-slate-400 mt-2">Avg Days Early</div>
+      <div class="text-xs text-teal-400 mt-1">When delivered before SLA</div>
+    </div>
+  </div>
+
+  <!-- Dramatic Rating Comparison -->
+  <div class="glass-card p-6 mb-6">
+    <div class="text-center mb-4">
+      <div class="font-bold text-white text-base">⚠️ Delivery Delay Impact on Customer Ratings</div>
+      <div class="text-xs text-slate-500 mt-1">A 1.72-star gap between on-time and late deliveries</div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="big-compare-card">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">On-Time Delivery</div>
+        <div class="text-5xl font-black text-emerald-400">⭐ 4.29</div>
+        <div class="text-xs text-slate-500 mt-2">62.43% leave 5-star · Only 6.60% 1-star</div>
+        <div class="mt-3 progress-bar"><div class="progress-fill" style="width:85.8%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+      </div>
+      <div class="big-compare-card">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">Delayed Delivery</div>
+        <div class="text-5xl font-black text-rose-400">⭐ 2.57</div>
+        <div class="text-xs text-slate-500 mt-2">Only 22.22% 5-star · 46.16% leave 1-star</div>
+        <div class="mt-3 progress-bar"><div class="progress-fill" style="width:51.4%;background:linear-gradient(90deg,#f43f5e,#fb7185);"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivery Latency Table -->
+  <div class="glass-card p-5 mb-6">
+    <div class="font-bold text-white text-sm mb-4">
+      <i class="fa-solid fa-chart-bar text-blue-400 mr-2"></i>Delivery Latency vs Review Score Breakdown
+    </div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Delivery Window</th>
+            <th>Orders</th>
+            <th>Avg ★</th>
+            <th>5-Star Rate</th>
+            <th>1-Star Rate</th>
+            <th>Satisfaction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="font-semibold text-emerald-400">≤ 3 days</span></td>
+            <td>6,832</td>
+            <td><span class="text-emerald-400 font-bold">4.46 ★</span></td>
+            <td>70.97%</td>
+            <td>—</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:89.2%;background:#10b981;"></div></div></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-teal-400">4 – 7 days</span></td>
+            <td>23,674</td>
+            <td><span class="text-teal-400 font-bold">4.40 ★</span></td>
+            <td>67.37%</td>
+            <td>—</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:88%;background:#14b8a6;"></div></div></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-blue-400">8 – 14 days</span></td>
+            <td>38,120</td>
+            <td><span class="text-blue-400 font-bold">4.30 ★</span></td>
+            <td>62.52%</td>
+            <td>—</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:86%;background:#3b82f6;"></div></div></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-amber-400">15 – 21 days</span></td>
+            <td>16,199</td>
+            <td><span class="text-amber-400 font-bold">4.12 ★</span></td>
+            <td>54.88%</td>
+            <td>—</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:82.4%;background:#f59e0b;"></div></div></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-orange-400">22 – 30 days</span></td>
+            <td>7,320</td>
+            <td><span class="text-orange-400 font-bold">3.55 ★</span></td>
+            <td>39.26%</td>
+            <td>—</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:71%;background:#f97316;"></div></div></td>
+          </tr>
+          <tr>
+            <td><span class="font-semibold text-rose-400">&gt; 30 days</span></td>
+            <td>4,208</td>
+            <td><span class="text-rose-400 font-bold">2.20 ★</span></td>
+            <td>15.78%</td>
+            <td class="text-rose-400 font-bold">55.89%</td>
+            <td><div class="progress-bar w-24"><div class="progress-fill" style="width:44%;background:#f43f5e;"></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- State Comparison -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <!-- Worst States -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-triangle-exclamation text-rose-400 mr-2"></i>Top 5 Worst Late Delivery States
+      </div>
+      <div class="space-y-3">
+        <div class="state-bar-row">
+          <span class="state-label text-rose-400">AL</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:23.94%;background:#f43f5e;"></div></div>
+          </div>
+          <span class="state-pct text-rose-400">23.94%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-orange-400">MA</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:19.56%;background:#fb923c;"></div></div>
+          </div>
+          <span class="state-pct text-orange-400">19.56%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-amber-400">PI</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:15.93%;background:#f59e0b;"></div></div>
+          </div>
+          <span class="state-pct text-amber-400">15.93%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-amber-400">CE</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:15.37%;background:#f59e0b;"></div></div>
+          </div>
+          <span class="state-pct text-amber-400">15.37%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-yellow-400">SE</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:15.22%;background:#eab308;"></div></div>
+          </div>
+          <span class="state-pct text-yellow-400">15.22%</span>
+        </div>
+      </div>
+    </div>
+    <!-- Best States -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i>Top 5 Best On-Time States
+      </div>
+      <div class="space-y-3">
+        <div class="state-bar-row">
+          <span class="state-label text-emerald-400">RO</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:2.88%;background:#10b981;"></div></div>
+          </div>
+          <span class="state-pct text-emerald-400">2.88%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-emerald-400">AC</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:3.75%;background:#10b981;"></div></div>
+          </div>
+          <span class="state-pct text-emerald-400">3.75%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-teal-400">AM</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:4.11%;background:#14b8a6;"></div></div>
+          </div>
+          <span class="state-pct text-teal-400">4.11%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-teal-400">AP</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:4.48%;background:#14b8a6;"></div></div>
+          </div>
+          <span class="state-pct text-teal-400">4.48%</span>
+        </div>
+        <div class="state-bar-row">
+          <span class="state-label text-blue-400">SP</span>
+          <div class="state-bar-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:5.88%;background:#3b82f6;"></div></div>
+          </div>
+          <span class="state-pct text-blue-400">5.88%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SP vs AL Comparison Card -->
+  <div class="callout-box rose">
+    <div class="flex items-start gap-3">
+      <i class="fa-solid fa-scale-balanced text-rose-400 mt-0.5 flex-shrink-0 text-lg"></i>
+      <div>
+        <div class="font-bold text-white text-sm mb-1">SP vs AL: The Delivery Divide</div>
+        <div class="text-slate-400 text-sm">
+          São Paulo (SP) delivers in <strong class="text-emerald-400">8.8 days avg</strong> with only 5.88% late rate — 
+          versus Alagoas (AL) at <strong class="text-rose-400">24.5 days avg</strong> and 23.94% late rate. 
+          This <strong class="text-white">2.78× delivery time gap</strong> directly explains the 
+          1.72-star rating difference and suggests prioritizing last-mile infrastructure investment 
+          in northeastern Brazil (AL, MA, PI, CE, SE).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TAB 4 — PRODUCT & CATEGORY ANALYTICS                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="tab-product" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+
+  <!-- Top Categories Chart -->
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">Top 5 Categories by GMV (R$)</div>
+      <div class="text-xs text-slate-500 mb-4">Horizontal bar — Gross revenue per category</div>
+      <div class="chart-wrap" style="height:280px;">
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Category Review Scores -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-star text-amber-400 mr-2"></i>Category Review Benchmarks
+      </div>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">health_beauty</span>
+            <span class="text-emerald-400 font-bold">4.19 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:83.8%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">perfumery</span>
+            <span class="text-emerald-400 font-bold">4.22 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:84.4%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">watches_gifts</span>
+            <span class="text-blue-400 font-bold">4.09 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:81.8%;background:linear-gradient(90deg,#3b82f6,#60a5fa);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">sports_leisure</span>
+            <span class="text-blue-400 font-bold">4.03 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:80.6%;background:linear-gradient(90deg,#3b82f6,#60a5fa);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">computers_accessories</span>
+            <span class="text-amber-400 font-bold">3.87 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:77.4%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">bed_bath_table</span>
+            <span class="text-amber-400 font-bold">3.98 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:79.6%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-slate-300">office_furniture <span class="text-xs text-rose-400">(Lowest)</span></span>
+            <span class="text-rose-400 font-bold">3.52 ★</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:70.4%;background:linear-gradient(90deg,#f43f5e,#fb7185);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Market Basket + Freight Friction -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <!-- Market Basket -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">
+        <i class="fa-solid fa-basket-shopping text-violet-400 mr-2"></i>Market Basket Analysis — Top Co-Purchased Pairs
+      </div>
+      <div class="text-xs text-slate-500 mb-4">Self-JOIN on order items to find co-purchase patterns</div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category A</th>
+              <th>Category B</th>
+              <th>Co-Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="text-violet-300">furniture_decor</span></td>
+              <td><span class="text-blue-300">bed_bath_table</span></td>
+              <td><span class="font-bold text-emerald-400">45</span></td>
+            </tr>
+            <tr>
+              <td><span class="text-blue-300">bed_bath_table</span></td>
+              <td><span class="text-violet-300">furniture_decor</span></td>
+              <td><span class="font-bold text-emerald-400">41</span></td>
+            </tr>
+            <tr>
+              <td><span class="text-teal-300">home_confort</span></td>
+              <td><span class="text-blue-300">bed_bath_table</span></td>
+              <td><span class="font-bold text-teal-400">25</span></td>
+            </tr>
+            <tr>
+              <td><span class="text-blue-300">bed_bath_table</span></td>
+              <td><span class="text-teal-300">home_confort</span></td>
+              <td><span class="font-bold text-teal-400">20</span></td>
+            </tr>
+            <tr>
+              <td><span class="text-amber-300">housewares</span></td>
+              <td><span class="text-violet-300">furniture_decor</span></td>
+              <td><span class="font-bold text-amber-400">16</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout-box violet mt-4 text-xs">
+        <strong class="text-violet-300">SQL Technique:</strong> <span class="text-slate-400">Self-JOIN on <code class="text-violet-300">order_items</code> where <code>a.order_id = b.order_id AND a.category &lt; b.category</code> — classic Market Basket Analysis pattern.</span>
+      </div>
+    </div>
+
+    <!-- High Freight Friction -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">
+        <i class="fa-solid fa-truck-fast text-rose-400 mr-2"></i>High Freight Friction Categories
+      </div>
+      <div class="text-xs text-slate-500 mb-4">Freight as % of product price — logistics cost burden</div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Freight/Price Ratio</th>
+              <th>Signal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-slate-300">christmas_supplies</td>
+              <td><span class="text-rose-400 font-bold">36.52%</span></td>
+              <td><div class="progress-bar w-20"><div class="progress-fill" style="width:73%;background:#f43f5e;"></div></div></td>
+            </tr>
+            <tr>
+              <td class="text-slate-300">signaling_and_security</td>
+              <td><span class="text-rose-400 font-bold">30.39%</span></td>
+              <td><div class="progress-bar w-20"><div class="progress-fill" style="width:60.8%;background:#f43f5e;"></div></div></td>
+            </tr>
+            <tr>
+              <td class="text-slate-300">electronics</td>
+              <td><span class="text-orange-400 font-bold">29.46%</span></td>
+              <td><div class="progress-bar w-20"><div class="progress-fill" style="width:58.9%;background:#fb923c;"></div></div></td>
+            </tr>
+            <tr>
+              <td class="text-slate-300">food_drink</td>
+              <td><span class="text-orange-400 font-bold">29.41%</span></td>
+              <td><div class="progress-bar w-20"><div class="progress-fill" style="width:58.8%;background:#fb923c;"></div></div></td>
+            </tr>
+            <tr>
+              <td class="text-slate-300">furniture_living_room</td>
+              <td><span class="text-amber-400 font-bold">26.27%</span></td>
+              <td><div class="progress-bar w-20"><div class="progress-fill" style="width:52.5%;background:#f59e0b;"></div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout-box amber mt-4 text-xs">
+        <strong class="text-amber-300">Insight:</strong> <span class="text-slate-400">christmas_supplies has a 36.52% freight-to-price ratio — sellers in this category may be underpricing relative to logistics costs, reducing margin significantly.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Scale Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-violet-400">32,951</div>
+      <div class="text-xs text-slate-500 mt-1">Unique Products Listed</div>
+    </div>
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-emerald-400">73</div>
+      <div class="text-xs text-slate-500 mt-1">Product Categories</div>
+    </div>
+    <div class="glass-card-sm p-4 text-center">
+      <div class="text-2xl font-extrabold text-blue-400">1.17</div>
+      <div class="text-xs text-slate-500 mt-1">Avg Items per Order</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TAB 5 — PAYMENT ANALYTICS                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="tab-payment" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+
+  <!-- KPI Row -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="glass-card metric-card emerald p-5 text-center">
+      <div class="kpi-number gradient-text-emerald">78.34%</div>
+      <div class="text-xs text-slate-400 mt-2">Credit Card Share</div>
+      <div class="text-xs text-emerald-400 mt-1">R$ 12,542,084</div>
+    </div>
+    <div class="glass-card metric-card blue p-5 text-center">
+      <div class="kpi-number" style="color:#60a5fa;">17.92%</div>
+      <div class="text-xs text-slate-400 mt-2">Boleto Share</div>
+      <div class="text-xs text-blue-400 mt-1">R$ 2,869,361</div>
+    </div>
+    <div class="glass-card metric-card amber p-5 text-center">
+      <div class="kpi-number" style="color:#fbbf24;">R$ 334</div>
+      <div class="text-xs text-slate-400 mt-2">7-10x Installment AOV</div>
+      <div class="text-xs text-amber-400 mt-1">3.5× above 1x buyers</div>
+    </div>
+    <div class="glass-card metric-card teal p-5 text-center">
+      <div class="kpi-number" style="color:#2dd4bf;">R$ 96</div>
+      <div class="text-xs text-slate-400 mt-2">1x Installment AOV</div>
+      <div class="text-xs text-teal-400 mt-1">R$ 95.87 exact</div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
+    <!-- Payment Doughnut -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-1">Payment Method Distribution</div>
+      <div class="text-xs text-slate-500 mb-4">By GMV share</div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="paymentChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Installment Table -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-table-list text-blue-400 mr-2"></i>Installment Bracket vs Average Ticket
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Installments</th>
+              <th>Avg Ticket (R$)</th>
+              <th>Multiplier vs 1x</th>
+              <th>Visual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="text-slate-400">1x (lump sum)</span></td>
+              <td class="font-semibold">95.87</td>
+              <td><span class="text-slate-500">1.00×</span></td>
+              <td><div class="progress-bar w-24"><div class="progress-fill" style="width:28.7%;background:#64748b;"></div></div></td>
+            </tr>
+            <tr>
+              <td><span class="text-blue-300">2x – 3x</span></td>
+              <td class="font-semibold">148.42</td>
+              <td><span class="text-blue-400">1.55×</span></td>
+              <td><div class="progress-bar w-24"><div class="progress-fill" style="width:44.5%;background:#3b82f6;"></div></div></td>
+            </tr>
+            <tr>
+              <td><span class="text-teal-300">4x – 6x</span></td>
+              <td class="font-semibold">221.16</td>
+              <td><span class="text-teal-400">2.31×</span></td>
+              <td><div class="progress-bar w-24"><div class="progress-fill" style="width:66.3%;background:#14b8a6;"></div></div></td>
+            </tr>
+            <tr>
+              <td><span class="text-emerald-300">7x – 10x</span></td>
+              <td class="font-semibold text-emerald-400">333.83</td>
+              <td><span class="text-emerald-400 font-bold">3.48×</span></td>
+              <td><div class="progress-bar w-24"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rec-card mt-4">
+        <div class="text-xs font-bold text-emerald-400 mb-1">
+          <i class="fa-solid fa-lightbulb mr-1"></i>Key Insight
+        </div>
+        <div class="text-xs text-slate-300">
+          7x–10x installment buyers spend <strong class="text-emerald-400">3.5× more</strong> (R$ 333.83 vs R$ 95.87). 
+          Promoting installment options at checkout for mid-range products could 
+          <strong class="text-emerald-300">significantly increase AOV</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split Payment Analysis + Payment Breakdown -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <!-- Split Payment -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-code-branch text-violet-400 mr-2"></i>Split Payment Behavior
+      </div>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300">Single Payment Method</span>
+            <span class="font-bold text-emerald-400">97.02%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:97%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300">Hybrid Split (2 methods)</span>
+            <span class="font-bold text-blue-400">2.26%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:2.26%;background:#3b82f6;"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1.5">
+            <span class="text-slate-300">Multi-Voucher Stacking</span>
+            <span class="font-bold text-violet-400">0.72%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0.72%;background:#8b5cf6;"></div></div>
+        </div>
+        <div class="callout-box mt-2 text-xs">
+          <span class="text-slate-400">97%+ of transactions use a single payment method, confirming clean, analyzable payment data with minimal multi-tender complexity.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GMV by Method -->
+    <div class="glass-card p-5">
+      <div class="font-bold text-white text-sm mb-4">
+        <i class="fa-solid fa-chart-pie text-emerald-400 mr-2"></i>GMV by Payment Method
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:#10b981;"></div>
+          <div class="flex-1">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300">Credit Card</span>
+              <span class="font-bold text-emerald-400">R$ 12,542,084</span>
+            </div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:78.34%;background:#10b981;"></div></div>
+          </div>
+          <span class="text-xs text-emerald-400 font-bold">78.34%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:#3b82f6;"></div>
+          <div class="flex-1">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300">Boleto</span>
+              <span class="font-bold text-blue-400">R$ 2,869,361</span>
+            </div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:17.92%;background:#3b82f6;"></div></div>
+          </div>
+          <span class="text-xs text-blue-400 font-bold">17.92%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:#8b5cf6;"></div>
+          <div class="flex-1">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300">Voucher</span>
+              <span class="font-bold text-violet-400">R$ 313,449</span>
+            </div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:2.37%;background:#8b5cf6;"></div></div>
+          </div>
+          <span class="text-xs text-violet-400 font-bold">2.37%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:#f59e0b;"></div>
+          <div class="flex-1">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300">Debit Card</span>
+              <span class="font-bold text-amber-400">R$ 179,603</span>
+            </div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:1.36%;background:#f59e0b;"></div></div>
+          </div>
+          <span class="text-xs text-amber-400 font-bold">1.36%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SQL TECHNIQUES SECTION (always visible)                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+  <hr class="hr-glow" />
+  <div class="text-center mb-6">
+    <div class="inline-flex items-center gap-2 mb-3">
+      <i class="fa-solid fa-code text-emerald-400"></i>
+      <h2 class="text-lg font-bold text-white">SQL Techniques Used</h2>
+    </div>
+    <p class="text-slate-500 text-sm">Advanced analytical patterns powering this entire dashboard</p>
+  </div>
+  <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+    <span class="sql-badge"><i class="fa-solid fa-code"></i> CTEs</span>
+    <span class="sql-badge"><i class="fa-solid fa-window-restore"></i> Window Functions (LAG, NTILE)</span>
+    <span class="sql-badge"><i class="fa-solid fa-sort-numeric-up"></i> ROW_NUMBER &amp; DENSE_RANK</span>
+    <span class="sql-badge"><i class="fa-solid fa-calculator"></i> Running Totals (SUM OVER)</span>
+    <span class="sql-badge"><i class="fa-solid fa-chart-line"></i> Moving Averages (AVG OVER ROWS)</span>
+    <span class="sql-badge"><i class="fa-solid fa-calendar"></i> JULIANDAY() Date Math</span>
+    <span class="sql-badge"><i class="fa-solid fa-filter"></i> Conditional Aggregation (CASE WHEN)</span>
+    <span class="sql-badge"><i class="fa-solid fa-basket-shopping"></i> Market Basket (Self-JOIN)</span>
+    <span class="sql-badge"><i class="fa-solid fa-clock"></i> STRFTIME() Patterns</span>
+    <span class="sql-badge"><i class="fa-solid fa-table-columns"></i> 3NF Schema Design</span>
+    <span class="sql-badge"><i class="fa-solid fa-key"></i> Composite Primary Keys</span>
+    <span class="sql-badge"><i class="fa-solid fa-link"></i> Foreign Key Constraints</span>
+    <span class="sql-badge"><i class="fa-solid fa-bolt"></i> Performance Indexing</span>
+    <span class="sql-badge"><i class="fa-solid fa-percent"></i> Freight Ratio Analysis</span>
+    <span class="sql-badge"><i class="fa-solid fa-user-group"></i> RFM Segmentation</span>
+    <span class="sql-badge"><i class="fa-solid fa-timeline"></i> Cohort Analysis</span>
+  </div>
+
+  <!-- Schema visual -->
+  <div class="glass-card mt-8 p-5">
+    <div class="font-bold text-white text-sm mb-4 text-center">
+      <i class="fa-solid fa-diagram-project text-emerald-400 mr-2"></i>3NF Schema Overview — 9 Normalized Tables
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-cart-shopping text-blue-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">orders</div>
+        <div class="text-xs text-slate-500 mt-0.5">99,441 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-box text-emerald-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">order_items</div>
+        <div class="text-xs text-slate-500 mt-0.5">112,650 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-user text-violet-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">customers</div>
+        <div class="text-xs text-slate-500 mt-0.5">99,441 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-store text-amber-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">sellers</div>
+        <div class="text-xs text-slate-500 mt-0.5">3,095 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-tags text-teal-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">products</div>
+        <div class="text-xs text-slate-500 mt-0.5">32,951 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-credit-card text-rose-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">order_payments</div>
+        <div class="text-xs text-slate-500 mt-0.5">103,886 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-star text-amber-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">order_reviews</div>
+        <div class="text-xs text-slate-500 mt-0.5">99,224 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-map-pin text-blue-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">geolocation</div>
+        <div class="text-xs text-slate-500 mt-0.5">1,000,163 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center">
+        <i class="fa-solid fa-language text-emerald-400 mb-1 text-lg"></i>
+        <div class="text-xs font-bold text-white">product_categories</div>
+        <div class="text-xs text-slate-500 mt-0.5">71 rows</div>
+      </div>
+      <div class="glass-card-sm p-3 text-center flex items-center justify-center">
+        <div class="text-center">
+          <div class="text-xl font-black gradient-text-emerald">50+</div>
+          <div class="text-xs text-slate-500">SQL queries</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  FOOTER                                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<footer class="mt-4 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center space-y-3">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#10b981,#059669);">
+          <i class="fa-solid fa-database text-white text-xs"></i>
+        </div>
+        <span class="font-bold text-white">OlistIQ <span class="text-emerald-400">SQL Analytics</span></span>
+      </div>
+      <div class="text-sm text-slate-400">
+        Built by <strong class="text-white">Madhav Kumar</strong> · Data Analytics Portfolio
+      </div>
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a href="https://github.com/Madhav70/olist-ecommerce-sql-analytics" target="_blank"
+           class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors">
+          <i class="fa-brands fa-github"></i> GitHub Repository
+        </a>
+        <span class="text-slate-700">·</span>
+        <a href="https://madhav70.github.io/olist-ecommerce-sql-analytics/" target="_blank"
+           class="flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+          <i class="fa-solid fa-globe"></i> Live Dashboard
+        </a>
+        <span class="text-slate-700">·</span>
+        <span class="text-xs text-slate-500">
+          <i class="fa-brands fa-kaggle mr-1"></i>Dataset: Olist Brazilian E-Commerce (Kaggle) · 2016–2018
+        </span>
+      </div>
+      <div class="text-xs text-slate-600 pt-2">
+        Powered by SQLite · Chart.js · Tailwind CSS · FontAwesome · Google Fonts Inter
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+// ── TAB SWITCHING ──────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  // re-render charts when switching (lazy)
+  setTimeout(() => renderCharts(name), 50);
+}
+
+// ── CHART.JS GLOBAL DEFAULTS ───────────────────────────────────
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// Store chart instances to avoid duplication
+const chartInstances = {};
+
+function getOrCreate(id, config) {
+  if (chartInstances[id]) {
+    chartInstances[id].destroy();
+  }
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  chartInstances[id] = new Chart(ctx.getContext('2d'), config);
+}
+
+// ── MONTHLY GMV CHART ──────────────────────────────────────────
+function renderGmvChart() {
+  const labels = [
+    'Jan 17','Feb 17','Mar 17','Apr 17','May 17','Jun 17',
+    'Jul 17','Aug 17','Sep 17','Oct 17','Nov 17','Dec 17',
+    'Jan 18','Feb 18','Mar 18','Apr 18','May 18','Jun 18',
+    'Jul 18','Aug 18'
+  ];
+  const data = [
+    111798, 234223, 359198, 340669, 489338, 421923,
+    481604, 554699, 607399, 648247, 987765, 726033,
+    924645, 826437, 953356, 973534, 977544, 856077,
+    867953, 838576
+  ];
+
+  // Point colors — highlight Black Friday
+  const pointBg = data.map((_, i) => i === 10 ? '#f59e0b' : '#10b981');
+  const pointR  = data.map((_, i) => i === 10 ? 7 : 4);
+
+  getOrCreate('gmvChart', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'GMV (R$)',
+        data,
+        borderColor: '#10b981',
+        backgroundColor: (ctx) => {
+          const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 240);
+          gradient.addColorStop(0, 'rgba(16,185,129,0.3)');
+          gradient.addColorStop(1, 'rgba(16,185,129,0.01)');
+          return gradient;
+        },
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: pointBg,
+        pointBorderColor: pointBg,
+        pointRadius: pointR,
+        pointHoverRadius: 7,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          borderColor: 'rgba(16,185,129,0.3)',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: (ctx) => {
+              const v = ctx.parsed.y;
+              const suffix = ctx.dataIndex === 10 ? ' 🛍️ Black Friday +52%!' : '';
+              return ' R$ ' + v.toLocaleString() + suffix;
+            }
+          }
+        },
+        annotation: { /* requires plugin — manual approach below */ }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { font: { size: 10 }, maxRotation: 45 }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            font: { size: 10 },
+            callback: v => 'R$ ' + (v / 1000).toFixed(0) + 'K'
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── DAY OF WEEK CHART ──────────────────────────────────────────
+function renderDowChart() {
+  getOrCreate('dowChart', {
+    type: 'bar',
+    data: {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sun','Sat'],
+      datasets: [{
+        label: 'Orders',
+        data: [15701, 15503, 15076, 14323, 13685, 11635, 10555],
+        backgroundColor: [
+          'rgba(16,185,129,0.75)',
+          'rgba(16,185,129,0.65)',
+          'rgba(59,130,246,0.65)',
+          'rgba(59,130,246,0.55)',
+          'rgba(245,158,11,0.65)',
+          'rgba(139,92,246,0.55)',
+          'rgba(139,92,246,0.45)',
+        ],
+        borderColor: 'transparent',
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          borderColor: 'rgba(16,185,129,0.3)',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: ctx => ' ' + ctx.parsed.y.toLocaleString() + ' orders'
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { font: { size: 10 }, callback: v => v.toLocaleString() }
+        }
+      }
+    }
+  });
+}
+
+// ── RFM SEGMENTATION DOUGHNUT ──────────────────────────────────
+function renderRfmChart() {
+  getOrCreate('rfmChart', {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Needs Attention','High-Value New','High-Value Churned',
+        'Hibernating/Lost','Recent Promising','Champions VIP',
+        'Loyal Customers','At Risk Former Loyal'
+      ],
+      datasets: [{
+        data: [21837, 14484, 6840, 26250, 21655, 933, 873, 486],
+        backgroundColor: [
+          '#f43f5e','#10b981','#f59e0b',
+          '#475569','#3b82f6','#8b5cf6',
+          '#14b8a6','#ec4899'
+        ],
+        borderColor: '#0f172a',
+        borderWidth: 3,
+        hoverOffset: 10,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            font: { size: 10 },
+            padding: 10,
+            boxWidth: 12,
+            color: '#94a3b8'
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          borderColor: 'rgba(16,185,129,0.2)',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: ctx => {
+              const gmvMap = [33.70,29.26,14.28,9.21,9.09,2.31,1.33,0.81];
+              return [
+                ' Customers: ' + ctx.parsed.toLocaleString(),
+                ' GMV Share: ' + gmvMap[ctx.dataIndex] + '%'
+              ];
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── CATEGORY HORIZONTAL BAR ────────────────────────────────────
+function renderCategoryChart() {
+  getOrCreate('categoryChart', {
+    type: 'bar',
+    data: {
+      labels: ['health_beauty','watches_gifts','bed_bath_table','sports_leisure','computers_accessories'],
+      datasets: [{
+        label: 'GMV (R$)',
+        data: [1237439, 1167246, 1037177, 960189, 896243],
+        backgroundColor: [
+          'rgba(16,185,129,0.75)',
+          'rgba(59,130,246,0.7)',
+          'rgba(245,158,11,0.7)',
+          'rgba(139,92,246,0.7)',
+          'rgba(244,63,94,0.65)',
+        ],
+        borderColor: 'transparent',
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          borderColor: 'rgba(16,185,129,0.3)',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: ctx => ' R$ ' + ctx.parsed.x.toLocaleString()
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { font: { size: 10 }, callback: v => 'R$ ' + (v/1000).toFixed(0) + 'K' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ── PAYMENT DOUGHNUT ───────────────────────────────────────────
+function renderPaymentChart() {
+  getOrCreate('paymentChart', {
+    type: 'doughnut',
+    data: {
+      labels: ['Credit Card','Boleto','Voucher','Debit Card'],
+      datasets: [{
+        data: [78.34, 17.92, 2.37, 1.36],
+        backgroundColor: ['#10b981','#3b82f6','#8b5cf6','#f59e0b'],
+        borderColor: '#0f172a',
+        borderWidth: 3,
+        hoverOffset: 10,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 14, boxWidth: 13, color: '#94a3b8' }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          borderColor: 'rgba(16,185,129,0.2)',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: ctx => {
+              const gmvMap = ['R$ 12,542,084','R$ 2,869,361','R$ 313,449','R$ 179,603'];
+              return [' Share: ' + ctx.parsed + '%', ' GMV: ' + gmvMap[ctx.dataIndex]];
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── LAZY CHART RENDERING ───────────────────────────────────────
+const rendered = {};
+
+function renderCharts(tab) {
+  if (tab === 'overview' && !rendered.overview) {
+    rendered.overview = true;
+    renderGmvChart();
+    renderDowChart();
+  } else if (tab === 'customer' && !rendered.customer) {
+    rendered.customer = true;
+    renderRfmChart();
+  } else if (tab === 'product' && !rendered.product) {
+    rendered.product = true;
+    renderCategoryChart();
+  } else if (tab === 'payment' && !rendered.payment) {
+    rendered.payment = true;
+    renderPaymentChart();
+  }
+}
+
+// ── INIT ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderCharts('overview');
+
+  // Animate progress bars
+  setTimeout(() => {
+    document.querySelectorAll('.progress-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      requestAnimationFrame(() => {
+        setTimeout(() => { el.style.width = w; }, 100);
+      });
+    });
+  }, 300);
+});
+</script>
+</body>
+</html>
